@@ -460,6 +460,16 @@ body{font-family:var(--font);background:#05100e;overflow:hidden;-webkit-font-smo
 .controls .play:hover{background:#bdf2e8}
 .controls .count{color:#cfe0db;font-weight:700;font-size:14px;letter-spacing:.05em;min-width:48px;text-align:center}
 
+/* ============ rotate-to-landscape hint ============ */
+.rotate-hint{position:fixed;z-index:90;left:50%;top:18px;transform:translateX(-50%);
+  display:none;align-items:center;gap:10px;max-width:88vw;
+  background:rgba(7,24,21,.82);backdrop-filter:blur(10px);border:1px solid rgba(159,231,218,.25);
+  padding:10px 16px;border-radius:999px;color:#cfe0db;font:600 13px/1.3 var(--font);
+  box-shadow:0 20px 50px -18px rgba(0,0,0,.6)}
+.rotate-hint svg{width:20px;height:20px;flex:none;animation:rh-wig 2.4s ease-in-out infinite}
+@keyframes rh-wig{0%,60%,100%{transform:rotate(0)}30%{transform:rotate(-22deg)}}
+body.is-portrait .rotate-hint{display:flex}
+
 /* ============ tweaks panel ============ */
 .tweaks{position:fixed;top:18px;right:18px;z-index:80;width:300px;
   background:rgba(8,22,20,.92);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.12);
@@ -743,6 +753,12 @@ input[type=range]{width:100%;accent-color:var(--primary-soft)}
 <!-- tweaks panel -->
 <aside class="tweaks hidden" id="tweaks" aria-label="Tweaks"></aside>
 
+<!-- rotate-to-landscape hint (portrait phones only) -->
+<div class="rotate-hint" aria-hidden="true">
+  <svg viewBox="0 0 24 24"><path d="M16.48 2.52a2 2 0 0 1 0 2.83L5.35 16.48a2 2 0 0 1-2.83-2.83L13.65 2.52a2 2 0 0 1 2.83 0z" fill="none" stroke="#9fe7da" stroke-width="1.6"></path><path d="M14 4l2.5 2.5M19 8a7 7 0 0 1 0 8" fill="none" stroke="#9fe7da" stroke-width="1.6" stroke-linecap="round"></path></svg>
+  <span>Gira tu dispositivo para ver la presentación a pantalla completa</span>
+</div>
+
 
 
 
@@ -764,10 +780,20 @@ canvas.setAttribute('data-trans','cinematic');
 
 /* ---------- fit to viewport ---------- */
 function fit(){
-  var s = Math.min(window.innerWidth/1920, window.innerHeight/1080);
+  var vw = window.innerWidth, vh = window.innerHeight;
+  // On portrait phones the 16:9 deck would shrink to a tiny letterboxed
+  // sliver. Rotate it to fill the screen and prompt for landscape.
+  var portrait = vh > vw && vw < 768;
+  var s = portrait
+    ? Math.min(vh/1920, vw/1080)
+    : Math.min(vw/1920, vh/1080);
   document.documentElement.style.setProperty('--s', s);
+  canvas.style.transform = (portrait ? 'rotate(90deg) ' : '') + 'scale(' + s + ')';
+  document.body.classList.toggle('is-portrait', portrait);
 }
-window.addEventListener('resize', fit); fit();
+window.addEventListener('resize', fit);
+window.addEventListener('orientationchange', fit);
+fit();
 
 /* ---------- progress segments ---------- */
 var fills=[];
