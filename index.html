@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FitSanitario</title>
+<style>
+  :root{
+    --bg:#EAF1EF;--surface:#fff;--border:#D3DFDC;--text:#10201D;--muted:#46554F;
+    --primary:#0A6E63;--primary-strong:#075A51;--primary-weak:#D6ECE7;
+    --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--font);background:
+      radial-gradient(120% 120% at 80% 0%,#0e8377 0%,#075A51 46%,#04332e 100%);
+      min-height:100vh;color:#fff;display:flex;align-items:center;justify-content:center;padding:32px}
+  .wrap{width:100%;max-width:760px}
+  .brand{font-size:clamp(40px,9vw,76px);font-weight:800;letter-spacing:-.04em;line-height:1}
+  .brand b{color:#9fe7da}
+  .tag{margin-top:18px;font-size:clamp(16px,2.6vw,22px);color:#cdeee7;font-weight:500;max-width:560px}
+  .cards{margin-top:46px;display:grid;gap:18px;grid-template-columns:1fr}
+  @media(min-width:560px){.cards{grid-template-columns:1fr 1fr}}
+  a.card{display:block;text-decoration:none;background:var(--surface);color:var(--text);
+    border-radius:20px;padding:26px;box-shadow:0 24px 60px -24px rgba(0,0,0,.5);
+    transition:transform .15s ease,box-shadow .15s ease;border:1px solid rgba(255,255,255,.1)}
+  a.card:hover{transform:translateY(-4px);box-shadow:0 30px 70px -24px rgba(0,0,0,.55)}
+  .pill{display:inline-block;font:800 12px var(--font);letter-spacing:.06em;text-transform:uppercase;
+    color:var(--primary-strong);background:var(--primary-weak);padding:6px 12px;border-radius:999px}
+  .card h2{margin-top:14px;font-size:24px;font-weight:800;letter-spacing:-.01em}
+  .card p{margin-top:8px;color:var(--muted);font-size:15px;line-height:1.45}
+  .card .go{margin-top:16px;font-weight:800;color:var(--primary)}
+  .foot{margin-top:40px;font-size:13px;color:#9ed8ce}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="brand">Fit<b>Sanitario</b></div>
+    <p class="tag">Muévete con tu equipo. Suma puntos. Desbloquea logros.</p>
+    <div class="cards">
+      <a class="card" href="app.html">
+        <span class="pill">Prototipo</span>
+        <h2>App interactiva</h2>
+        <p>Prototipo navegable: perfil, ejercicio, cámara, logros y muro social.</p>
+        <div class="go">Abrir prototipo →</div>
+      </a>
+      <a class="card" href="deck.html">
+        <span class="pill">Comercial</span>
+        <h2>Presentación</h2>
+        <p>Deck cinemático que recorre cada pantalla y el sistema de diseño.</p>
+        <div class="go">Ver presentación →</div>
+      </a>
+    </div>
+    <p class="foot">FitSanitario · HealthTribes</p>
+  </div>
+</body>
+</html>
