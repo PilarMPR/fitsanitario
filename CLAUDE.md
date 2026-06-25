@@ -15,9 +15,11 @@ FitSanitario (brand: **HealthTribes**) — a Spanish-language marketing/prototyp
 
 All copy and identifiers are in Spanish — keep new strings in Spanish.
 
-### app-mvp.html is a generated bundle — do not hand-edit its app logic
+### app-mvp.html is a generated/exported artifact — do not hand-edit its app logic
 
-Unlike the other files, `app-mvp.html` is a **self-contained "bundler" export**, not authored in the inline style. A small loader script at the top decodes base64 assets from `<script type="__bundler/manifest">` (some are gzip-compressed, inflated via `DecompressionStream`) into blob URLs, then rebuilds the real document at runtime from the JSON string in `<script type="__bundler/template">`. The actual app code lives in two **minified JS blobs** inside the manifest, so editing the prototype's behavior by hand is impractical — treat this file as a build artifact and regenerate/re-export it from source rather than patching it. The newest export currently lives in `~/Downloads/FitSanitario MVP (standalone)*.html`. It also carries an edit-mode "Tweaks" panel that talks to a host via `postMessage` (inert when opened standalone).
+Unlike the other files, `app-mvp.html` originates from a **"bundler" export**, not authored in the inline style. The original export shipped a runtime loader that decoded base64 assets (some gzip-compressed) into blob URLs and rebuilt the document on `DOMContentLoaded` — but that loader left only the placeholder screen on GitHub Pages. So the committed file is a **statically un-bundled** version: the same document the loader would have produced, with fonts/images inlined as `data:` URIs and the two **minified JS app blobs** inlined as `data:` URI `<script>`s. There is no runtime decoding step anymore.
+
+The app's behavior lives in those minified blobs, so do **not** patch it by hand — treat this as a build artifact. To regenerate: re-export the bundle from source (newest export lives in `~/Downloads/FitSanitario MVP (standalone)*.html`), then statically un-bundle it (decode manifest → gunzip compressed entries → replace each asset UUID with a `data:` URI → inject `window.__resources` after `<head>`). It also carries an edit-mode "Tweaks" panel that talks to a host via `postMessage` (inert when opened standalone).
 
 ## Running / previewing
 
